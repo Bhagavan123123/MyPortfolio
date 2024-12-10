@@ -277,7 +277,7 @@
           			<span class="icon-map-signs"></span>
           		</div>
           		<h3 class="mb-4">Address</h3>
-	            <p>No: 20/27 Kothaval street Alandur Chennai-600016</p>
+	            <p style="color: #fff;">No: 20/27 Kothaval street Alandur Chennai-600016</p>
 	          </div>
           </div>
           <div class="col-md-6 col-lg-4 d-flex ftco-animate">
@@ -286,7 +286,7 @@
           			<span class="icon-phone2"></span>
           		</div>
           		<h3 class="mb-4">Contact Number</h3>
-	            <p><a href="tel://9087908017">+91 9087908017</a></p>
+	            <p><a href="tel://7358519080">+91 7358519080</a></p>
 	          </div>
           </div>
           <div class="col-md-6 col-lg-4 d-flex ftco-animate">
@@ -312,13 +312,23 @@
         <div class="row no-gutters block-9">
 			
 
-          <div class="col-md-6 order-md-last d-flex">
-			<form id="email-form">
-				<input type="text" id="name" placeholder="Your Name" required />
-				<input type="email" id="email" placeholder="Your Email" required />
-				<textarea id="message" placeholder="Your Message" required></textarea>
-				<button type="submit">Send Email</button>
+          <div class="col-md-6 mailform order-md-last d-flex">
+			<form id="contactForm">
+				<div class="form-group">
+				  <label for="name">Name</label>
+				  <input type="text" class="mail-input" id="name" name="user_name" placeholder="Your Name" required>
+				</div>
+				<div class="form-group">
+				  <label for="email">Email</label>
+				  <input type="email" class="mail-input"  id="email" name="user_email" placeholder="Your Email" required>
+				</div>
+				<div class="form-group">
+				  <label for="message">Message</label>
+				  <textarea id="message" class="mail-input"  name="user_message" placeholder="Your Message" rows="4" required></textarea>
+				</div>
+				<button type="submit" class="mail-btn" id="sendButton">Send</button>
 			  </form>
+			  <p id="statusMessage"></p>
           
           </div>
 
@@ -351,48 +361,39 @@
   <script src="js/scrollax.min.js"></script>
   
   <script src="js/main.js"></script>
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script type="text/javascript">
-	(function() {
-		// https://dashboard.emailjs.com/admin/account
-		emailjs.init({
-		  publicKey: "NOzas-vaEqmIFxPKy",
-		});
-	})();
-</script>
-  <script>
-    // Initialize EmailJS with your User ID
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+  <script >
+	// Initialize EmailJS
+emailjs.init("NOzas-vaEqmIFxPKy"); // Public Key
 
 // Form submission handler
-document.getElementById('email-form').addEventListener('submit', function (e) {
-  e.preventDefault();
+document.getElementById("contactForm").addEventListener("submit", function (event) {
+  event.preventDefault();
 
-  // Collect form data
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const message = document.getElementById('message').value;
+  const statusMessage = document.getElementById("statusMessage");
+  statusMessage.textContent = "Sending...";
 
-  // Display loading message (optional)
-  alert("Sending email, please wait...");
+  const serviceID = "service_n5gpel8";
+  const templateID = "template_q7qwyi5";
 
-  // EmailJS send function
+  // Send the email
   emailjs
-    .send("service_n5gpel8", "template_6vnyi3g", {
-      name: name,
-      email: email,
-      message: message,
-    })
+    .sendForm(serviceID, templateID, this)
     .then(
-      function (response) {
-        alert("Email sent successfully!"); // Success feedback
-        document.getElementById('email-form').reset(); // Clear form fields
+      (response) => {
+        console.log("SUCCESS!", response.status, response.text);
+        statusMessage.textContent = "Message sent successfully!";
+        statusMessage.style.color = "green";
+        document.getElementById("contactForm").reset();
       },
-      function (error) {
-        alert("Failed to send email. Please try again."); // Error feedback
-        console.error("EmailJS error:", error); // Debugging info
+      (error) => {
+        console.error("FAILED...", error);
+        statusMessage.textContent = "Failed to send message. Please try again.";
+        statusMessage.style.color = "red";
       }
     );
 });
+
   </script>
   </body>
 </html>

@@ -9775,3 +9775,29 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+
+   .mailform{
+    background: #fff;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+   } 
+
+
+   .form-group{
+    width: 100%;
+   }
+
+
+   .mail-input{
+    width: 100%;
+   }
+
+   .mail-btn{
+    width: 100%;
+    background: #000;
+    color: #fff;
+   }
